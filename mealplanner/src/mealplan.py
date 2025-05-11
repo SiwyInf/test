@@ -1,12 +1,23 @@
 from typing import Dict, List
 from recipe import Recipe  # Import klasy Recipe z innego modułu
 
+
 class MealPlan:
     def __init__(self):
         # Inicjalizacja pustego planu posiłków na każdy dzień tygodnia
         # Klucze to dni tygodnia, a wartości to listy obiektów typu Recipe (przepis)
-        self.plan: Dict[str, List[Recipe]] = {day: [] for day in [
-            "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]}
+        self.plan: Dict[str, List[Recipe]] = {
+            day: []
+            for day in [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ]
+        }
 
     def add_meal(self, day: str, meal: Recipe):
         # Sprawdzenie, czy przekazany posiłek jest instancją klasy Recipe

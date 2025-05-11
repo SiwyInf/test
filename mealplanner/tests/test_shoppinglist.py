@@ -20,10 +20,12 @@ def complex_recipe():
 @pytest.fixture
 def sample_recipes():
     return [
-        Recipe("Pasta", {"pasta": 100, "tomato_sauce": 50, "cheese": 20}, 450, 15, 10, 60),
+        Recipe(
+            "Pasta", {"pasta": 100, "tomato_sauce": 50, "cheese": 20}, 450, 15, 10, 60
+        ),
         Recipe("Salad", {"lettuce": 100, "tomato": 2, "cucumber": 1}, 120, 3, 2, 15),
         Recipe("Omelette", {"eggs": 3, "cheese": 30, "pepper": 1}, 320, 22, 18, 4),
-        Recipe("Smoothie", {"banana": 1, "milk": 200, "strawberry": 50}, 180, 5, 3, 30)
+        Recipe("Smoothie", {"banana": 1, "milk": 200, "strawberry": 50}, 180, 5, 3, 30),
     ]
 
 
@@ -40,43 +42,46 @@ def meal_plan_with_recipes(sample_recipes):
 
 
 # Test funkcji generate_shopping_list z różnymi zestawami przepisów i oczekiwanymi wynikami
-@pytest.mark.parametrize("recipes,expected", [
-    (
+@pytest.mark.parametrize(
+    "recipes,expected",
+    [
+        (
             [
                 Recipe("Test1", {"milk": 200}, 100, 5, 3, 10),
                 Recipe("Test2", {"milk": 100, "bread": 2}, 150, 6, 4, 20),
             ],
-            {"milk": 300, "bread": 2}
-    ),
-    (
+            {"milk": 300, "bread": 2},
+        ),
+        (
             [
                 Recipe("Test3", {"apple": 1}, 50, 1, 0, 12),
             ],
-            {"apple": 1}
-    ),
-    (
+            {"apple": 1},
+        ),
+        (
             [
                 Recipe("Test4", {"rice": 100}, 200, 4, 2, 45),
                 Recipe("Test5", {"rice": 150, "chicken": 200}, 400, 30, 10, 0),
             ],
-            {"rice": 250, "chicken": 200}
-    ),
-    (
+            {"rice": 250, "chicken": 200},
+        ),
+        (
             [
                 Recipe("Combo", {"tomato": 100, "cheese": 50}, 200, 10, 8, 12),
                 Recipe("Salad", {"tomato": 50, "lettuce": 100}, 100, 2, 1, 5),
             ],
-            {"tomato": 150, "cheese": 50, "lettuce": 100}
-    ),
-    (
+            {"tomato": 150, "cheese": 50, "lettuce": 100},
+        ),
+        (
             [
                 Recipe("Breakfast", {"eggs": 2, "bread": 100}, 250, 15, 5, 30),
                 Recipe("Lunch", {"rice": 150, "chicken": 200}, 400, 35, 10, 50),
                 Recipe("Dinner", {"chicken": 150, "vegetables": 300}, 350, 30, 8, 20),
             ],
-            {"eggs": 2, "bread": 100, "rice": 150, "chicken": 350, "vegetables": 300}
-    )
-])
+            {"eggs": 2, "bread": 100, "rice": 150, "chicken": 350, "vegetables": 300},
+        ),
+    ],
+)
 def test_generate_shopping_list(recipes, expected):
     shopping_list = generate_shopping_list(recipes)
     assert shopping_list == expected

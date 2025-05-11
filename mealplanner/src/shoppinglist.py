@@ -2,6 +2,7 @@ from collections import defaultdict
 from recipe import Recipe
 from mealplan import MealPlan
 
+
 # Funkcja do generowania shopping listy
 def generate_shopping_list(recipes):
     shopping_list = defaultdict(float)
@@ -9,6 +10,7 @@ def generate_shopping_list(recipes):
         for ingredient, quantity in recipe.ingredients.items():
             shopping_list[ingredient] += quantity
     return dict(shopping_list)
+
 
 class ShoppingList:
     def __init__(self):
@@ -96,8 +98,9 @@ class ShoppingList:
         for ingredient, quantity in other.items.items():
             merged.add_item(ingredient, quantity)  # Dodaje składniki z innej listy
         return merged
+
     def scale_quantities(self, factor: float):
-        #Skaluje ilości wszystkich składników przez podany współczynnik
+        # Skaluje ilości wszystkich składników przez podany współczynnik
         if factor < 0:
             raise ValueError("Scale factor must be non-negative.")  # WALIDACJA
         for ingredient in self.items:
