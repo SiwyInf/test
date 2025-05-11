@@ -86,13 +86,20 @@ mealplanner/
 
 ---
 
+---
+
+## 📚 Źródła i Wsparcie
+
+W trakcie pracy nad aplikacją korzystano z dodatkowych źródeł wspierających proces nauki i zrozumienia narzędzi:
+
+- **Claude AI** – pomoc w głębszym zrozumieniu zasad działania testów jednostkowych oraz interpretacji ich wyników.
+- **ChatGPT (OpenAI)** – wsparcie w analizie struktury aplikacji, dokumentacji oraz ogólnym zrozumieniu działania poszczególnych komponentów.
+- **Oficjalna dokumentacja Pytest** – [https://docs.pytest.org/en/stable/contents.html](https://docs.pytest.org/en/stable/contents.html) – źródło wiedzy przy konfiguracji i użyciu `pytest` do testowania aplikacji.
+
+
 ## 👨‍💻 Autorzy
 
 - **Marcel Szeluga** – [GitHub](https://github.com/SiwyInf)
 
 ---
-
-## 📝 Licencja
-
-Projekt objęty licencją **MIT**. Szczegóły znajdują się w pliku `LICENSE`.
 
