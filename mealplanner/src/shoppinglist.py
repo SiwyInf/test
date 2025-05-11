@@ -1,10 +1,10 @@
 from collections import defaultdict
-from recipe import Recipe
-from mealplan import MealPlan
+from typing import Dict, List
+from src.recipe import Recipe
+from src.mealplan import MealPlan
 
 
-# Funkcja do generowania shopping listy
-def generate_shopping_list(recipes):
+def generate_shopping_list(recipes: List[Recipe]) -> Dict[str, float]:
     shopping_list = defaultdict(float)
     for recipe in recipes:
         for ingredient, quantity in recipe.ingredients.items():
@@ -13,95 +13,77 @@ def generate_shopping_list(recipes):
 
 
 class ShoppingList:
-    def __init__(self):
-        self.items = defaultdict(float)
+    def __init__(self) -> None:
+        self.items: Dict[str, float] = defaultdict(float)
 
-    def add_item(self, ingredient: str, quantity: float):
-        # Dodaje składnik i jego ilość do listy zakupów
+    def add_item(self, ingredient: str, quantity: float) -> None:
         if quantity > 0:
             self.items[ingredient] += quantity
 
-    def get_items(self):
-        # Zwraca wszystkie składniki na liście zakupów w formie słownika
+    def get_items(self) -> Dict[str, float]:
         return dict(self.items)
 
-    def add_from_recipe(self, recipe: Recipe):
-        # Dodaje składniki z pojedynczego przepisu do listy zakupów
+    def add_from_recipe(self, recipe: Recipe) -> None:
         for ingredient, quantity in recipe.ingredients.items():
             self.add_item(ingredient, quantity)
 
-    def add_from_mealplan(self, meal_plan: MealPlan):
-        # Dodaje składniki ze wszystkich przepisów w planie posiłków
+    def add_from_mealplan(self, meal_plan: MealPlan) -> None:
         for meals in meal_plan.plan.values():
             for recipe in meals:
                 self.add_from_recipe(recipe)
 
-    def filter_by_threshold(self, threshold: float):
-        # Zwraca filtrowaną listę zakupów z pozycjami, których ilość przekracza próg
+    def filter_by_threshold(self, threshold: float) -> 'ShoppingList':
         filtered = ShoppingList()
         for ingredient, quantity in self.items.items():
             if quantity >= threshold:
                 filtered.add_item(ingredient, quantity)
         return filtered
 
-    def remove_item(self, ingredient: str):
-        # Usuwa składnik z listy zakupów
+    def remove_item(self, ingredient: str) -> None:
         if ingredient in self.items:
             del self.items[ingredient]
 
-    def clear(self):
-        # Czyści listę zakupów
+    def clear(self) -> None:
         self.items.clear()
 
-    def update_item_quantity(self, ingredient: str, quantity: float):
-        # Aktualizuje ilość składnika w liście zakupów
-        if ingredient in self.items:
-            if quantity > 0:
-                self.items[ingredient] = quantity
+    def update_item_quantity(self, ingredient: str, quantity: float) -> None:
+        if ingredient in self.items and quantity > 0:
+            self.items[ingredient] = quantity
 
-    def get_total_items(self):
-        # Zwraca całkowitą liczbę unikalnych składników na liście zakupów
+    def get_total_items(self) -> int:
         return len(self.items)
 
-    def get_total_quantity(self):
-        # Zwraca całkowitą ilość wszystkich składników na liście zakupów
+    def get_total_quantity(self) -> float:
         return sum(self.items.values())
 
-    def get_categorized_items(self):
-        # Zwraca składniki pogrupowane według ich domyślnej kategorii
+    def get_categorized_items(self) -> Dict[str, Dict[str, float]]:
         categories = defaultdict(dict)
         for ingredient, quantity in self.items.items():
-            category = "uncategorized"  # Można to rozbudować, aby obsługiwało rzeczywiste kategorie
+            category = "uncategorized"  # Można rozbudować w przyszłości
             categories[category][ingredient] = quantity
-        return categories
+        return dict(categories)
 
-    def has_item(self, ingredient: str):
-        # Sprawdza, czy lista zakupów zawiera dany składnik
+    def has_item(self, ingredient: str) -> bool:
         return ingredient in self.items
 
-    def get_item_quantity(self, ingredient: str):
-        # Zwraca ilość danego składnika na liście zakupów
-        return self.items.get(ingredient, 0)
+    def get_item_quantity(self, ingredient: str) -> float:
+        return self.items.get(ingredient, 0.0)
 
-    def export(self):
-        # Eksportuje listę zakupów do słownika
+    def export(self) -> Dict[str, float]:
         return dict(self.items)
 
-    def import_list(self, data):
-        # Importuje listę zakupów z danych (słownika)
+    def import_list(self, data: Dict[str, float]) -> None:
         self.items = defaultdict(float, data)
 
-    def merge(self, other):
-        # Łączy inną listę zakupów z bieżącą
+    def merge(self, other: 'ShoppingList') -> 'ShoppingList':
         merged = ShoppingList()
-        merged.items.update(self.items)  # Kopiuje obecne składniki
+        merged.items.update(self.items)
         for ingredient, quantity in other.items.items():
-            merged.add_item(ingredient, quantity)  # Dodaje składniki z innej listy
+            merged.add_item(ingredient, quantity)
         return merged
 
-    def scale_quantities(self, factor: float):
-        # Skaluje ilości wszystkich składników przez podany współczynnik
+    def scale_quantities(self, factor: float) -> None:
         if factor < 0:
-            raise ValueError("Scale factor must be non-negative.")  # WALIDACJA
+            raise ValueError("Scale factor must be non-negative.")
         for ingredient in self.items:
             self.items[ingredient] *= factor
